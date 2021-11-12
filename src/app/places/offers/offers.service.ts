@@ -5,7 +5,7 @@ import { Offer } from './offers.model';
   providedIn: 'root'
 })
 export class OffersService {
-
+  
   offers: Offer[] = [
     {
       id: '1',
@@ -32,4 +32,8 @@ export class OffersService {
   getOffers(): Offer[] {
     return [...this.offers];
   }
+  getOffer(offerId: string): Offer {
+    return {...this.offers.find(offer => offer.id === offerId)};
+  }
+
 }
