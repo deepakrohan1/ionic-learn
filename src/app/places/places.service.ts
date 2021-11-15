@@ -5,6 +5,7 @@ import { Place } from './places.model';
   providedIn: 'root'
 })
 export class PlacesService {
+  
 
   private places: Place[] = [
     new Place('p1', 
@@ -34,4 +35,8 @@ export class PlacesService {
   getPlaces() {
     return [...this.places];
   };
+
+  getPlace(palceId: string): Place {
+    return {...this.places.find(p => p.id === palceId)};
+  }
 }
