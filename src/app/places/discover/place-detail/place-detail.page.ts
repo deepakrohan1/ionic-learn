@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { CreateBookingComponent } from 'src/app/bookings/create-booking/create-booking.component';
 import { Place } from '../../places.model';
 import { PlacesService } from '../../places.service';
 
@@ -15,7 +16,8 @@ export class PlaceDetailPage implements OnInit {
   constructor(private router: Router,
     private navCtrl: NavController,
     private actRoute: ActivatedRoute,
-    private placeService: PlacesService) { }
+    private placeService: PlacesService,
+    private modalController: ModalController) { }
 
   ngOnInit() {
 
@@ -33,8 +35,22 @@ export class PlaceDetailPage implements OnInit {
    */
   onBookPlace() {
     console.log('Booked!');
+    this.modalController
+      .create({
+        component: CreateBookingComponent,
+        componentProps: { selectedPlace: this.place }
+      })
+      .then(modeEl => {
+        modeEl.present();
+        return modeEl.onDidDismiss();
+      }).then(resultData => {
+        console.log(resultData.data, resultData.role);
+        if (resultData.role === 'confirm') {
+          console.log('Booked!');
+        }
+      });
     // this.router.navigateByUrl('/places/tabs/discover');
-    this.navCtrl.navigateBack('/places/tabs/discover');
+    // this.navCtrl.navigateBack('/places/tabs/discover');
     // Make sure the stackk is empty. The stack is should always have data
     // this.navCtrl.pop();
   }
